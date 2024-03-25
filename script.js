@@ -20,34 +20,9 @@ const decimalButton = document.querySelector("#decimal");
 const equalsButton = document.querySelector("#equals");
 
 
-let currentOperation = ""
-let firstNumber = ""
-let secondNumber = ""
-let displayValue = ""
-
-function add (firstNumber, secondNumber) {
-    return firstNumber + secondNumber
-}
-
-function subtract (firstNumber, secondNumber) {
-    return firstNumber - secondNumber
-}
-
-function multiply (firstNumber, secondNumber) {
-    return firstNumber * secondNumber
-}
-
-function divide (firstNumber, secondNumber) {
-    return firstNumber / secondNumber
-}
-
-function percentage (displayValue) {
-    return displayValue / 100
-}
-
 allClearButton.addEventListener("click", () => handleClick(inputHandling('allClear')));
-plusMinusButton.addEventListener("click", () => handleClick(inputHandling('plusMinus')));
-percentageButton.addEventListener("click", () => handleClick(inputHandling('percentage')));
+plusMinusButton.addEventListener("click", () => handleClick(inputHandling('+-')));
+percentageButton.addEventListener("click", () => handleClick(inputHandling('%')));
 divideButton.addEventListener("click", () => handleClick(inputHandling('/')));
 sevenButton.addEventListener("click", () => handleClick(inputHandling(7)));
 eightButton.addEventListener("click", () => handleClick(inputHandling(8)));
@@ -69,63 +44,97 @@ equalsButton.addEventListener("click", () => handleClick(inputHandling('=')));
 const handleClick = () => {
   };
 
-let operator = "";
+let firstNum = ""
+let secondNum = ""
+let operator = ""
+let result = ""
+let secondOperator = ""
 
 function inputHandling(num) {
     const numbers = "1234567890"
+    const operators = ["+", "-", "*", "/", "=", "%", "allClear", "+-"];
 
-    if (numbers.includes(num)) {
+
+    if(numbers.includes(num)) {
         if (operator === "") {
-            secondNumber += num
-            displayText.textContent += num 
+            displayText.textContent = ""
+            firstNum += num
+            displayText.textContent += firstNum
         } else {
             displayText.textContent = ""
-            firstNumber += num
-            displayText.textContent += num
+            secondNum += num
+            displayText.textContent += secondNum
         }
-  
+    }
+
+    if (operators.includes(num)) {
+        if (num === "allClear") {
+            clear();
+            return; // Exit early if it's the clear operation
+        }
+        if (num === "+-") {
+            // Change sign
+            displayText.textContent = Number(displayText.textContent) * -1;
+            if (operator === "") {
+                firstNum = displayText.textContent;
+            } else {
+                secondNum = displayText.textContent;
+            }
+            return; // Exit early after changing sign
+        }
         
-    }
+        if (num === "%") {
+            // Calculate percentage
+            if (operator === "") {
+                firstNum = (Number(firstNum) / 100).toString();
+                displayText.textContent = firstNum;
+            } else {
+                secondNum = (Number(secondNum) / 100).toString();
+                displayText.textContent += "%";
+            }
+            return; // Exit early after calculating percentage
+        }
 
-
-    if (num === "+" || num === "-" || num === "*" || num === "/") {
+        if (secondNum !== "") {
+            calculate();
+            firstNum = result.toString(); // Update firstNum with the result
+            secondNum = ""; // Reset secondNum
+        }
         operator = num;
-        if (operator === "+") {
-            if (firstNumber !== "" && secondNumber !== "") {
-                displayText.textContent = (Number(firstNumber) + Number(secondNumber))
-                firstNumber = displayText.textContent
-                secondNumber = ""
-                operator = ""
-            }
-        }
-
-        if (operator === "-") {
-            if (firstNumber !== "" && secondNumber !== "") {
-                displayText.textContent = (Number(secondNumber) - Number(firstNumber))
-                firstNumber = displayText.textContent
-                secondNumber = ""
-                operator = ""
-            }
-        }
-
-        if (operator === "*") {
-            if (firstNumber !== "" && secondNumber !== "") {
-                displayText.textContent = (Number(firstNumber) * Number(secondNumber))
-                firstNumber = displayText.textContent
-                secondNumber = ""
-                operator = ""
-            }
-        }
-
-        if (operator === "/") {
-            if (firstNumber !== "" && secondNumber !== "") {
-                displayText.textContent = (Number(secondNumber) / Number(firstNumber))
-                firstNumber = displayText.textContent
-                secondNumber = ""
-                operator = ""
-            }
-        }
     }
-
 }
 
+function calculate() {
+    switch (operator) {
+        case "+":
+            result = Number(firstNum) + Number(secondNum);
+            break;
+        case "-":
+            result = Number(firstNum) - Number(secondNum);
+            break;
+        case "*":
+            result = Number(firstNum) * Number(secondNum);
+            break;
+        case "/":
+            result = Number(firstNum) / Number(secondNum);
+            break;
+        case "%":
+
+            break
+        case "+-":
+            displayText.textContent = Number(displayText.textContent) * -1
+            break;
+        default:
+            result = "Error";
+    }
+    displayText.textContent = result;
+}
+
+function clear() {
+    firstNum = ""
+    secondNum = ""
+    operator = ""
+    result = ""
+    secondOperator = ""
+    displayText.textContent = ""
+}

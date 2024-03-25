@@ -45,114 +45,87 @@ function percentage (displayValue) {
     return displayValue / 100
 }
 
-addButton.addEventListener("click", () => {
-    currentOperation = "add";
-    if (firstNumber !== "") {
-        firstNumber = runCurrent(Number(firstNumber), Number(secondNumber), currentOperation);
-        secondNumber = ""; 
-    }
-})
+allClearButton.addEventListener("click", () => handleClick(inputHandling('allClear')));
+plusMinusButton.addEventListener("click", () => handleClick(inputHandling('plusMinus')));
+percentageButton.addEventListener("click", () => handleClick(inputHandling('percentage')));
+divideButton.addEventListener("click", () => handleClick(inputHandling('/')));
+sevenButton.addEventListener("click", () => handleClick(inputHandling(7)));
+eightButton.addEventListener("click", () => handleClick(inputHandling(8)));
+nineButton.addEventListener("click", () => handleClick(inputHandling(9)));
+multiplyButton.addEventListener("click", () => handleClick(inputHandling('*')));
+fourButton.addEventListener("click", () => handleClick(inputHandling(4)));
+fiveButton.addEventListener("click", () => handleClick(inputHandling(5)));
+sixButton.addEventListener("click", () => handleClick(inputHandling(6)));
+subtractButton.addEventListener("click", () => handleClick(inputHandling('-')));
+oneButton.addEventListener("click", () => handleClick(inputHandling(1)));
+twoButton.addEventListener("click", () => handleClick(inputHandling(2)));
+threeButton.addEventListener("click", () => handleClick(inputHandling(3)));
+addButton.addEventListener("click", () => handleClick(inputHandling('+')));
+zeroButton.addEventListener("click", () => handleClick(inputHandling(0)));
+decimalButton.addEventListener("click", () => handleClick(inputHandling('.')));
+equalsButton.addEventListener("click", () => handleClick(inputHandling('=')));
 
-allClearButton.addEventListener("click", () => {
 
-});
+const handleClick = () => {
+  };
+
+let operator = "";
+
+function inputHandling(num) {
+    const numbers = "1234567890"
+
+    if (numbers.includes(num)) {
+        if (operator === "") {
+            secondNumber += num
+            displayText.textContent += num 
+        } else {
+            displayText.textContent = ""
+            firstNumber += num
+            displayText.textContent += num
+        }
   
-plusMinusButton.addEventListener("click", () => {
-    // Your logic here
-});
-  
-percentageButton.addEventListener("click", () => {
-    // Your logic here
-});
-  
-divideButton.addEventListener("click", () => {
-    // Your logic here
-});
-  
-sevenButton.addEventListener("click", () => {
-    // Your logic here
-});
-  
-eightButton.addEventListener("click", () => {
-    // Your logic here
-});
-  
-nineButton.addEventListener("click", () => {
-    // Your logic here
-});
-  
-multiplyButton.addEventListener("click", () => {
-    // Your logic here
-});
-  
-fourButton.addEventListener("click", () => {
-    // Your logic here
-});
-  
-fiveButton.addEventListener("click", () => {
-    // Your logic here
-});
-  
-sixButton.addEventListener("click", () => {
-    // Your logic here
-});
-  
-subtractButton.addEventListener("click", () => {
-    // Your logic here
-});
-  
-oneButton.addEventListener("click", () => {
-    runCurrent(firstNumber, secondNumber, currentOperation)
-    if (firstNumber === "") {
-        firstNumber = 1
-        displayText.textContent = "1"
-    } else {
-        secondNumber = 1
-        displayText.textContent = "1"
+        
     }
-});
-  
-twoButton.addEventListener("click", () => {
-    runCurrent(firstNumber, secondNumber, currentOperation)
-    if (firstNumber === "") {
-        firstNumber = 2
-        displayText.textContent = "2"
-    } else {
-        secondNumber = 2
-        displayText.textContent = "2"
+
+
+    if (num === "+" || num === "-" || num === "*" || num === "/") {
+        operator = num;
+        if (operator === "+") {
+            if (firstNumber !== "" && secondNumber !== "") {
+                displayText.textContent = (Number(firstNumber) + Number(secondNumber))
+                firstNumber = displayText.textContent
+                secondNumber = ""
+                operator = ""
+            }
+        }
+
+        if (operator === "-") {
+            if (firstNumber !== "" && secondNumber !== "") {
+                displayText.textContent = (Number(secondNumber) - Number(firstNumber))
+                firstNumber = displayText.textContent
+                secondNumber = ""
+                operator = ""
+            }
+        }
+
+        if (operator === "*") {
+            if (firstNumber !== "" && secondNumber !== "") {
+                displayText.textContent = (Number(firstNumber) * Number(secondNumber))
+                firstNumber = displayText.textContent
+                secondNumber = ""
+                operator = ""
+            }
+        }
+
+        if (operator === "/") {
+            if (firstNumber !== "" && secondNumber !== "") {
+                displayText.textContent = (Number(secondNumber) / Number(firstNumber))
+                firstNumber = displayText.textContent
+                secondNumber = ""
+                operator = ""
+            }
+        }
     }
-});
-  
-threeButton.addEventListener("click", () => {
-    // Your logic here
-});
-  
-addButton.addEventListener("click", () => {
-    // Your logic here
-});
-  
-zeroButton.addEventListener("click", () => {
-    // Your logic here
-});
-  
-decimalButton.addEventListener("click", () => {
-    // Your logic here
-});
-  
-equalsButton.addEventListener("click", () => {
-    // Your logic here
-});
-  
-function runCurrent(firstNumber, secondNumber, currentOperation) {
-    if (firstNumber !== "" && secondNumber !== "") {
-    
-    if (currentOperation === "add") {
-        let result;
-        result = add(firstNumber, secondNumber)
-        displayText.textContent = result
-        firstNumber = result
-        secondNumber = ""
-    }
-    return firstNumber
-  }
+
 }
+

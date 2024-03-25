@@ -70,17 +70,17 @@ function inputHandling(num) {
     if (operators.includes(num)) {
         if (num === "allClear") {
             clear();
-            return; // Exit early if it's the clear operation
+            return;
         }
         if (num === "+-") {
-            // Change sign
+            // Breaks after a few usages. Future me problem :)
             displayText.textContent = Number(displayText.textContent) * -1;
             if (operator === "") {
                 firstNum = displayText.textContent;
             } else {
                 secondNum = displayText.textContent;
             }
-            return; // Exit early after changing sign
+            return;
         }
         
         if (num === "%") {
